@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  COACH
+  STUDENT
+  PARENT
+}
+
+enum MemberStatus {
+  PENDING
+  APPROVED
+}
+
+enum NotificationType {
+  TRAINING
+  GAME
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String?
+  email        String
+  passwordHash String
+  image        String?
+  role         Role?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  studentProfile StudentProfile?
+
+  parentLinks ParentChildLink[] @relation("ParentLinks")
+  childLinks  ParentChildLink[] @relation("ChildLinks")
+
+  notifications Notification[]
+
+  // Same email may hold one account per role (useful for a shared tester email).
+  @@unique([email, role])
+  @@map("users")
+}
+
+model GroupAge {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  students  StudentProfile[]
+  trainings Training[]
+  games     Game[]
+
+  @@map("group_ages")
+}
+
+model StudentProfile {
+  id           String       @id @default(cuid())
+  userId       String       @unique
+  groupAgeId   String?
+  status       MemberStatus @default(PENDING)
+  inviteCode   String       @unique
+  phone        String?
+  age          Int?
+  birthDate    DateTime?
+  jerseyNumber Int?
+  position     String?
+  heightCm     Int?
+  weightKg     Int?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupAge GroupAge? @relation(fields: [groupAgeId], references: [id], onDelete: SetNull)
+
+  gameRosterEntries GameRoster[]
+  attendances       Attendance[]
+
+  @@map("student_profiles")
+}
+
+model ParentChildLink {
+  id        String   @id @default(cuid())
+  parentId  String
+  studentId String
+  createdAt DateTime @default(now())
+
+  parent  User @relation("ParentLinks", fields: [parentId], references: [id], onDelete: Cascade)
+  student User @relation("ChildLinks", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, studentId])
+  @@map("parent_child_links")
+}
+
+model Training {
+  id         String   @id @default(cuid())
+  groupAgeId String
+  title      String
+  location   String?
+  notes      String?
+  startsAt   DateTime
+  endsAt     DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  groupAge      GroupAge       @relation(fields: [groupAgeId], references: [id], onDelete: Cascade)
+  notifications Notification[]
+  attendances   Attendance[]
+
+  @@map("trainings")
+}
+
+model Attendance {
+  id         String           @id @default(cuid())
+  trainingId String
+  studentId  String
+  status     AttendanceStatus
+  markedAt   DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  training Training       @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  student  StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([trainingId, studentId])
+  @@map("attendances")
+}
+
+model Game {
+  id         String   @id @default(cuid())
+  groupAgeId String
+  opponent   String
+  location   String?
+  notes      String?
+  startsAt   DateTime
+  endsAt     DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  groupAge      GroupAge       @relation(fields: [groupAgeId], references: [id], onDelete: Cascade)
+  roster        GameRoster[]
+  notifications Notification[]
+
+  @@map("games")
+}
+
+model GameRoster {
+  id        String   @id @default(cuid())
+  gameId    String
+  studentId String
+  createdAt DateTime @default(now())
+
+  game    Game           @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  student StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, studentId])
+  @@map("game_rosters")
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  type        NotificationType
+  trainingId  String?
+  gameId      String?
+  message     String
+  emailSentAt DateTime?
+  readAt      DateTime?
+  createdAt   DateTime         @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  training Training? @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  game     Game?     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
