@@ -36,6 +36,9 @@ export async function AppHeader({
           <SignOutButton className="btn bg-transparent text-white/90 hover:bg-white/10 hover:text-white" />
         </div>
       </div>
+      <div className="border-t border-white/10 bg-ink-900/60">
+        <p className="container-page py-1.5 text-center text-xs text-white/60">{t.notice.monitoring}</p>
+      </div>
     </header>
   );
 }

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getDictionary } from "@/lib/i18n";
 import { EventCard } from "@/components/EventCard";
 import { Avatar } from "@/components/Avatar";
+import { ChangeGroupForm } from "./ChangeGroupForm";
 
 export default async function StudentDashboard() {
   const user = await requireRole("STUDENT");
@@ -32,6 +33,12 @@ export default async function StudentDashboard() {
     : [[], []];
 
   const allGames = gameRosterEntries.map((r) => r.game);
+
+  const otherGroups = await prisma.groupAge.findMany({
+    where: profile.groupAgeId ? { id: { not: profile.groupAgeId } } : undefined,
+    orderBy: { name: "asc" },
+    select: { id: true, name: true },
+  });
 
   const trainings = allTrainings.filter((t) => t.startsAt >= now);
   const pastTrainings = allTrainings.filter((t) => t.startsAt < now).reverse();
@@ -127,12 +134,16 @@ export default async function StudentDashboard() {
           )}
         </div>
 
-        <div className="card h-fit">
-          <h3 className="font-semibold">{dict.student.yourInviteCode}</h3>
-          <p className="mt-1 text-sm text-foreground/60">{dict.student.inviteCodeShare}</p>
-          <p className="mt-3 rounded-xl bg-surface-muted px-4 py-3 text-center text-2xl font-bold tracking-[0.3em]">
-            {profile.inviteCode}
-          </p>
+        <div className="space-y-6">
+          <div className="card h-fit">
+            <h3 className="font-semibold">{dict.student.yourInviteCode}</h3>
+            <p className="mt-1 text-sm text-foreground/60">{dict.student.inviteCodeShare}</p>
+            <p className="mt-3 rounded-xl bg-surface-muted px-4 py-3 text-center text-2xl font-bold tracking-[0.3em]">
+              {profile.inviteCode}
+            </p>
+          </div>
+
+          <ChangeGroupForm groups={otherGroups} />
         </div>
       </div>
     </div>

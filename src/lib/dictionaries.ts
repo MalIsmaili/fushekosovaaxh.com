@@ -24,6 +24,9 @@ export const dictionaries = {
       backToDashboard: "← Back to dashboard",
       nothingScheduled: "Nothing scheduled yet.",
     },
+    notice: {
+      monitoring: "Reminder: activity on this platform is monitored 24/7 for security purposes.",
+    },
     landing: {
       badge: "🏀 Built for youth basketball teams",
       title: "One place for trainings, games, and rosters.",
@@ -163,6 +166,12 @@ export const dictionaries = {
       phone: "Phone",
       saveProfile: "Save profile",
       profileSaved: "Profile saved.",
+      changeGroupTitle: "Change group age",
+      changeGroupHint: "Got older? Request to join a different group age — your coach will need to approve it.",
+      selectNewGroup: "Select a group",
+      requestToJoin: "Request to join",
+      requestingChange: "Sending request…",
+      changeGroupSent: "Request sent. Waiting for your coach's approval.",
     },
     parent: {
       yourChildren: "Your children",
@@ -204,6 +213,9 @@ export const dictionaries = {
       no: "Jo",
       backToDashboard: "← Kthehu te paneli",
       nothingScheduled: "Ende asgjë e planifikuar.",
+    },
+    notice: {
+      monitoring: "Kujtesë: aktiviteti juaj në këtë platformë monitorohet 24/7 për arsye sigurie.",
     },
     landing: {
       badge: "🏀 Ndërtuar për ekipet e basketbollit të të rinjve",
@@ -344,6 +356,12 @@ export const dictionaries = {
       phone: "Telefoni",
       saveProfile: "Ruaj profilin",
       profileSaved: "Profili u ruajt.",
+      changeGroupTitle: "Ndrysho grupmoshën",
+      changeGroupHint: "U rrite? Kërko të bashkohesh me një grupmoshë tjetër — trajneri duhet ta miratojë.",
+      selectNewGroup: "Zgjidh një grup",
+      requestToJoin: "Kërko të bashkohesh",
+      requestingChange: "Duke dërguar kërkesën…",
+      changeGroupSent: "Kërkesa u dërgua. Në pritje të miratimit nga trajneri.",
     },
     parent: {
       yourChildren: "Fëmijët tuaj",
