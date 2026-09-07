@@ -22,7 +22,10 @@ export default async function SignupPage({
 
   return (
     <main className="flex flex-1 flex-col">
-      <div className="container-page flex h-16 items-center justify-end">
+      <div className="container-page flex h-16 items-center justify-between">
+        <Link href="/" className="text-sm text-foreground/60 hover:text-foreground">
+          {t.common.back}
+        </Link>
         <LanguageToggle />
       </div>
       <div className="flex flex-1 items-center justify-center px-4 pb-16">

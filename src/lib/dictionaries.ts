@@ -22,6 +22,7 @@ export const dictionaries = {
       yes: "Yes",
       no: "No",
       backToDashboard: "← Back to dashboard",
+      back: "← Back",
       nothingScheduled: "Nothing scheduled yet.",
     },
     notice: {
@@ -212,6 +213,7 @@ export const dictionaries = {
       yes: "Po",
       no: "Jo",
       backToDashboard: "← Kthehu te paneli",
+      back: "← Prapa",
       nothingScheduled: "Ende asgjë e planifikuar.",
     },
     notice: {
