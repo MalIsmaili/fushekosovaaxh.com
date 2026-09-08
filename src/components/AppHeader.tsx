@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SignOutButton } from "@/components/SignOutButton";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -23,10 +24,8 @@ export async function AppHeader({
     <header className="border-b border-border bg-ink-900 text-white">
       <div className="container-page flex h-16 items-center justify-between">
         <Link href={homeHref} className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-sm">
-            🏀
-          </span>
-          <span>CourtSide</span>
+          <Image src="/logo.jpg" alt="FushëkosovaBB" width={36} height={36} className="object-contain" />
+          <span>FushëkosovaBB</span>
         </Link>
         <div className="flex items-center gap-3">
           <span className="hidden text-sm text-white/70 sm:inline">

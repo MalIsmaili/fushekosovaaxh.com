@@ -6,7 +6,7 @@ const MAINTENANCE_HTML = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CourtSide - Under maintenance</title>
+<title>FushëkosovaBB - Under maintenance</title>
 <style>
   body { font-family: system-ui, sans-serif; background: #17181c; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; padding: 24px; }
   .card { max-width: 420px; }
@@ -18,7 +18,7 @@ const MAINTENANCE_HTML = `<!DOCTYPE html>
 <body>
   <div class="card">
     <div class="emoji">🏀</div>
-    <h1>CourtSide is under maintenance</h1>
+    <h1>FushëkosovaBB is under maintenance</h1>
     <p>We're making some quick fixes. Please check back shortly.</p>
   </div>
 </body>

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CourtSide – Team Manager",
+  title: "FushëkosovaBB – Team Manager",
   description: "Trainings, games and rosters for coaches, players and parents.",
 };
 

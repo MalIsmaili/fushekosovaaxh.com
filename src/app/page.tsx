@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-helpers";
@@ -14,10 +15,8 @@ export default async function Home() {
     <main className="flex flex-1 flex-col">
       <div className="container-page flex h-16 items-center justify-between">
         <span className="flex items-center gap-2 font-extrabold tracking-tight">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-sm">
-            🏀
-          </span>
-          CourtSide
+          <Image src="/logo.jpg" alt="FushëkosovaBB" width={36} height={36} className="object-contain" />
+          FushëkosovaBB
         </span>
         <LanguageToggle />
       </div>

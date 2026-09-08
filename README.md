@@ -1,4 +1,4 @@
-# CourtSide
+# FushëkosovaBB
 
 A basketball team management app for coaches, players and parents, built with
 Next.js, Prisma/PostgreSQL, Auth.js (email + password) and Resend (email).

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-helpers";
@@ -24,10 +25,8 @@ export default async function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <Link href="/" className="inline-flex items-center gap-2 font-extrabold tracking-tight">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-sm">
-                🏀
-              </span>
-              CourtSide
+              <Image src="/logo.jpg" alt="FushëkosovaBB" width={36} height={36} className="object-contain" />
+              FushëkosovaBB
             </Link>
             <h1 className="mt-4 text-2xl font-extrabold tracking-tight">{t.auth.loginTitle}</h1>
             <p className="mt-2 text-foreground/70">{t.auth.loginSubtitle}</p>
