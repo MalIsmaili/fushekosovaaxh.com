@@ -8,10 +8,12 @@ export async function AppHeader({
   homeHref,
   userName,
   role,
+  showAdminLink,
 }: {
   homeHref: string;
   userName: string | null | undefined;
   role: "COACH" | "STUDENT" | "PARENT";
+  showAdminLink?: boolean;
 }) {
   const t = await getDictionary();
   const roleLabels: Record<string, string> = {
@@ -31,6 +33,11 @@ export async function AppHeader({
           <span className="hidden text-sm text-white/70 sm:inline">
             {userName} · {roleLabels[role] ?? role}
           </span>
+          {showAdminLink && (
+            <Link href="/coach/admin" className="btn bg-transparent text-white/90 hover:bg-white/10 hover:text-white">
+              {t.coach.admin}
+            </Link>
+          )}
           <LanguageToggle />
           <SignOutButton className="btn bg-transparent text-white/90 hover:bg-white/10 hover:text-white" />
         </div>

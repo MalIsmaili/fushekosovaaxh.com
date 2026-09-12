@@ -13,6 +13,13 @@ export function isAllowedCoachEmail(email: string | null | undefined) {
   return coachEmails.includes(email.toLowerCase());
 }
 
+const ownerEmail = (process.env.OWNER_EMAIL ?? "").trim().toLowerCase();
+
+export function isOwner(email: string | null | undefined) {
+  if (!ownerEmail || !email) return false;
+  return email.toLowerCase() === ownerEmail;
+}
+
 /** Returns the signed-in user's DB record, or null if not signed in or the
  * account no longer exists (e.g. a stale login cookie after deletion). */
 export async function getCurrentUser() {
@@ -24,6 +31,7 @@ export async function getCurrentUser() {
 export async function requireSession() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  if (user.banned) redirect("/banned");
   return user;
 }
 

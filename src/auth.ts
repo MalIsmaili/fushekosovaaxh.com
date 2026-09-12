@@ -27,6 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             ? await prisma.user.findFirst({ where: { email, role: role as Role } })
             : await prisma.user.findFirst({ where: { email } });
         if (!user || !verifyPassword(password, user.passwordHash)) return null;
+        if (user.banned) return null;
 
         return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
