@@ -29,6 +29,11 @@ enum AttendanceStatus {
   ABSENT
 }
 
+enum GameResult {
+  WIN
+  LOSS
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String?
@@ -137,15 +142,16 @@ model Attendance {
 }
 
 model Game {
-  id         String   @id @default(cuid())
+  id         String      @id @default(cuid())
   groupAgeId String
   opponent   String
   location   String?
   notes      String?
   startsAt   DateTime
   endsAt     DateTime?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  result     GameResult?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   groupAge      GroupAge       @relation(fields: [groupAgeId], references: [id], onDelete: Cascade)
   roster        GameRoster[]

@@ -61,6 +61,17 @@ export function GameForm({ groupAgeId, players }: { groupAgeId: string; players:
       </div>
 
       <div>
+        <label className="label" htmlFor="game-result">
+          {t.coach.result} ({t.common.optional})
+        </label>
+        <select id="game-result" name="result" className="input" defaultValue="">
+          <option value="">{t.coach.resultNotPlayedYet}</option>
+          <option value="WIN">{t.coach.win}</option>
+          <option value="LOSS">{t.coach.loss}</option>
+        </select>
+      </div>
+
+      <div>
         <span className="label">{t.coach.playersCalledUp}</span>
         {players.length === 0 ? (
           <p className="text-sm text-foreground/60">{t.coach.noActivePlayers}</p>

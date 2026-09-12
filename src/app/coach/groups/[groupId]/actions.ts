@@ -74,11 +74,13 @@ export async function createGameAction(_prev: ActionState, formData: FormData): 
   const notes = String(formData.get("notes") ?? "").trim() || null;
   const startsAtRaw = String(formData.get("startsAt") ?? "");
   const endsAtRaw = String(formData.get("endsAt") ?? "");
+  const resultRaw = String(formData.get("result") ?? "");
   const studentIds = formData.getAll("studentIds").map(String);
 
   if (!opponent) return { error: "Opponent is required." };
   if (!startsAtRaw) return { error: "Start date/time is required." };
   if (studentIds.length === 0) return { error: "Select at least one player." };
+  if (resultRaw && resultRaw !== "WIN" && resultRaw !== "LOSS") return { error: "Invalid result." };
 
   const startsAt = new Date(startsAtRaw);
   const endsAt = endsAtRaw ? new Date(endsAtRaw) : null;
@@ -94,6 +96,7 @@ export async function createGameAction(_prev: ActionState, formData: FormData): 
       notes,
       startsAt,
       endsAt,
+      result: resultRaw === "WIN" || resultRaw === "LOSS" ? resultRaw : null,
       roster: { create: studentIds.map((studentId) => ({ studentId })) },
     },
   });
@@ -101,6 +104,21 @@ export async function createGameAction(_prev: ActionState, formData: FormData): 
   await notifyGameCreated(game.id);
   revalidatePath(`/coach/groups/${groupAgeId}`);
   return {};
+}
+
+export async function setGameResultAction(formData: FormData) {
+  await requireRole("COACH");
+  const gameId = String(formData.get("gameId") ?? "");
+  const groupAgeId = String(formData.get("groupAgeId") ?? "");
+  const resultRaw = String(formData.get("result") ?? "");
+  if (!gameId) return;
+  if (resultRaw !== "WIN" && resultRaw !== "LOSS" && resultRaw !== "") return;
+
+  await prisma.game.update({
+    where: { id: gameId },
+    data: { result: resultRaw === "" ? null : resultRaw },
+  });
+  revalidatePath(`/coach/groups/${groupAgeId}`);
 }
 
 export async function deleteGameAction(formData: FormData) {

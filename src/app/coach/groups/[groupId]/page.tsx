@@ -10,6 +10,7 @@ import { approveStudentAction, removeStudentAction, deleteTrainingAction, delete
 import { deleteGroupAction } from "@/app/coach/actions";
 import { TrainingForm } from "./TrainingForm";
 import { GameForm } from "./GameForm";
+import { GameResultSelect } from "./GameResultSelect";
 
 export default async function GroupDetailPage({ params }: { params: Promise<{ groupId: string }> }) {
   const { groupId } = await params;
@@ -187,7 +188,19 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ gr
             {group.games.map((g) => (
               <div key={g.id} className="card flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-medium">{dict.coach.vs} {g.opponent}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium">{dict.coach.vs} {g.opponent}</p>
+                    <GameResultSelect
+                      gameId={g.id}
+                      groupAgeId={group.id}
+                      result={g.result}
+                      labels={{
+                        notPlayedYet: dict.coach.resultNotPlayedYet,
+                        win: dict.coach.win,
+                        loss: dict.coach.loss,
+                      }}
+                    />
+                  </div>
                   <p className="text-sm text-foreground/60">{formatEventRange(g.startsAt, g.endsAt)}</p>
                   {g.location && <p className="text-sm text-foreground/60">📍 {g.location}</p>}
                   {g.notes && <p className="mt-1 text-sm text-foreground/70">{g.notes}</p>}
