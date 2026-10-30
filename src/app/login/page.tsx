@@ -1,17 +1,23 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { getDictionary } from "@/lib/i18n";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { Logo } from "@/components/Logo";
 import { LoginForm } from "./LoginForm";
 import { NewPlayerPrompt } from "./NewPlayerPrompt";
 
-export default async function LoginPage() {
+export async function generateMetadata() {
+  const t = await getDictionary();
+  return { title: t.meta.login };
+}
+
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ reset?: string }> }) {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
 
   const t = await getDictionary();
+  const { reset } = await searchParams;
 
   return (
     <main className="flex flex-1 flex-col">
@@ -25,14 +31,20 @@ export default async function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <Link href="/" className="inline-flex items-center gap-2 font-extrabold tracking-tight">
-              <Image src="/logo.jpg" alt="FushëkosovaBB" width={36} height={36} className="object-contain" />
+              <Logo />
               FushëkosovaBB
             </Link>
             <h1 className="mt-4 text-2xl font-extrabold tracking-tight">{t.auth.loginTitle}</h1>
             <p className="mt-2 text-foreground/70">{t.auth.loginSubtitle}</p>
           </div>
 
-          <NewPlayerPrompt />
+          {reset === "1" ? (
+            <p role="status" className="card mb-4 text-sm text-success-600">
+              {t.authExtra.passwordChanged}
+            </p>
+          ) : (
+            <NewPlayerPrompt />
+          )}
 
           <LoginForm />
 

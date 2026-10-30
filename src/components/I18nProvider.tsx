@@ -4,8 +4,8 @@ import { createContext, useContext } from "react";
 import { dictionaries, type Locale, type Dict } from "@/lib/dictionaries";
 
 const I18nContext = createContext<{ locale: Locale; t: Dict }>({
-  locale: "en",
-  t: dictionaries.en,
+  locale: "sq",
+  t: dictionaries.sq,
 });
 
 export function I18nProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {

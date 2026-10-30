@@ -1,11 +1,16 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-helpers";
 import { getDictionary } from "@/lib/i18n";
 import { prisma } from "@/lib/prisma";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { Logo } from "@/components/Logo";
 import { SignupForm } from "./SignupForm";
+
+export async function generateMetadata() {
+  const t = await getDictionary();
+  return { title: t.meta.signup };
+}
 
 export default async function SignupPage({
   searchParams,
@@ -33,7 +38,7 @@ export default async function SignupPage({
         <div className="w-full max-w-md">
           <div className="mb-8 text-center">
             <Link href="/" className="inline-flex items-center gap-2 font-extrabold tracking-tight">
-              <Image src="/logo.jpg" alt="FushëkosovaBB" width={36} height={36} className="object-contain" />
+              <Logo />
               FushëkosovaBB
             </Link>
             <h1 className="mt-4 text-2xl font-extrabold tracking-tight">{t.auth.signupTitle}</h1>
